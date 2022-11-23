@@ -65,6 +65,8 @@ class Dinosaur:
             self.dino_jump = False
             self.jump_vel = JUMP_VEL
 
+        self.step_index += 1
+
     def duck(self):
         self.image = DUCKING[0] if self.step_index < 5 else DUCKING[1]
         self.dino_rect = self.image.get_rect()
