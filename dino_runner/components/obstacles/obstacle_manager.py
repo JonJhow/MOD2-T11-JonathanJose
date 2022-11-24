@@ -22,8 +22,6 @@ class ObstacleManager:
                 self.obstacles.append(Bird())
                     
         for obstacle in self.obstacles:
-            if self.obstacle_index == 2:
-                obstacle.fly(game)
             obstacle.update(game.game_speed, self.obstacles)
 
             if game.player.dino_rect.colliderect(obstacle.rect):
