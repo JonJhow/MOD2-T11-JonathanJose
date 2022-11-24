@@ -28,8 +28,6 @@ class ObstacleManager:
                 pygame.time.delay(500)
                 game.playing = False
                 game.death_count += 1
-                if game.score > game.high_score:
-                    game.high_score = game.score + 1
                 break
 
     def reset_obstacles(self):

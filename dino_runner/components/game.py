@@ -44,6 +44,8 @@ class Game:
             self.events()
             self.update()
             self.draw()
+        if self.score > self.high_score:
+            self.high_score = self.score
 
     def events(self):
         for event in pygame.event.get():
