@@ -1,6 +1,6 @@
 import pygame
 
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, CLOUD
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.power_ups.power_up_manager import PowerUpManager
@@ -90,6 +90,14 @@ class Game:
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
 
+    #def draw_clound(self):
+    #    CLOUD.get_rect()
+    #    self.screen.blit(CLOUD, (SCREEN_WIDTH, 100))
+    #    CLOUD.rect.x -= self.game_speed
+
+    #   if self.rect.x < -SCREEN_WIDTH:
+    #       CLOUD.rect.x = SCREEN_WIDTH
+
     def text_draw(self, text, size, x_pos, y_pos):
         font = pygame.font.Font(FONT_STYLE, size)
         text = font.render(text, True, (0, 0, 0))
@@ -109,6 +117,7 @@ class Game:
             else:
                 self.player.has_power_up = False
                 self.player.hammer = False
+                self.player.black_heart = False
                 self.player.type = DEFAULT_TYPE
 
     def handle_events_on_menu(self):

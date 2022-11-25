@@ -1,15 +1,20 @@
 import pygame
 from pygame.sprite import Sprite
 
-from dino_runner.utils.constants import RUNNING, JUMPING, DUCKING, DEFAULT_TYPE, SHIELD_TYPE, DUCKING_SHIELD, JUMPING_SHIELD, RUNNING_SHIELD, HAMMER_TYPE, DUCKING_HAMMER, JUMPING_HAMMER, RUNNING_HAMMER, BLACK_HEART_TYPE
+from dino_runner.utils.constants import RUNNING, JUMPING, DUCKING, DEFAULT_TYPE, SHIELD_TYPE, DUCKING_SHIELD, JUMPING_SHIELD, RUNNING_SHIELD, HAMMER_TYPE, DUCKING_HAMMER, JUMPING_HAMMER, RUNNING_HAMMER, BLACK_HEART_TYPE, RUNNING_BH, JUMPING_BH, DUCKING_BH
+from dino_runner.components.sound import sound_board
 
 X_POS = 80
 Y_POS = 310
 JUMP_VEL = 8.5
 
-DUCK_IMG = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD, HAMMER_TYPE: DUCKING_HAMMER, BLACK_HEART_TYPE: DUCKING}
-JUMP_IMG = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD, HAMMER_TYPE: JUMPING_HAMMER, BLACK_HEART_TYPE: JUMPING}
-RUN_IMG = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD, HAMMER_TYPE: RUNNING_HAMMER, BLACK_HEART_TYPE: RUNNING}
+DUCK_IMG = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD, HAMMER_TYPE: DUCKING_HAMMER, BLACK_HEART_TYPE: DUCKING_BH}
+JUMP_IMG = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD, HAMMER_TYPE: JUMPING_HAMMER, BLACK_HEART_TYPE: JUMPING_BH}
+RUN_IMG = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD, HAMMER_TYPE: RUNNING_HAMMER, BLACK_HEART_TYPE: RUNNING_BH}
+
+pygame.mixer.init()
+pygame.mixer.music.set_volume(0.2)
+JUMP_SOUND = pygame.mixer.Sound("dino_runner/Assets/Sound/SFX_Jump1.wav")
 
 
 class Dinosaur:
@@ -29,6 +34,7 @@ class Dinosaur:
     def setup_state(self):
         self.has_power_up = False
         self.hammer = False
+        self.black_heart = False
         self.show_text = False
         self.shield_time_up = 0
 
@@ -40,11 +46,12 @@ class Dinosaur:
         elif self.dino_duck:
             self.duck()
 
-        if user_input[pygame.K_UP] and not self.dino_jump:
+        if user_input[pygame.K_UP] and not self.dino_jump and not self.black_heart:
+            sound_board.play_jump()
             self.dino_run = False
             self.dino_jump = True
             self.dino_duck = False
-        elif user_input[pygame.K_DOWN] and not self.dino_jump:
+        elif user_input[pygame.K_DOWN] and not self.dino_jump and not self.black_heart:
             self.dino_duck = True
             self.dino_run = False
             self.dino_jump = False

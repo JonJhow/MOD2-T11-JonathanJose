@@ -4,6 +4,7 @@ import random
 from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS
 from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.bird import Bird
+from dino_runner.components.sound import sound_board
 
 
 class ObstacleManager:
@@ -25,11 +26,13 @@ class ObstacleManager:
             obstacle.update(game.game_speed, self.obstacles)
             if game.player.dino_rect.colliderect(obstacle.rect):
                 if not game.player.has_power_up:
+                    sound_board.play_hit()
                     pygame.time.delay(500)
                     game.playing = False
                     game.death_count += 1
                     break
-                elif game.player.hammer:
+                elif game.player.hammer or game.player.black_heart:
+                    sound_board.play_destroy_obstacle()
                     self.obstacles.remove(obstacle)
 
     def reset_obstacles(self):

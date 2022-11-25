@@ -20,7 +20,7 @@ class PowerUpManager:
                 self.power_ups.append(Shield())
             elif self.power_choice > 4 and self.power_choice <= 7:
                 self.power_ups.append(Hammer())
-            else:
+            elif self.power_choice > 7 or self.power_choice <= 9:
                 self.power_ups.append(BlackHeart())
 
     def update(self, score, game_speed, player):
@@ -30,10 +30,14 @@ class PowerUpManager:
             if player.dino_rect.colliderect(power_up.rect):
                 if self.power_choice > 4 and self.power_choice <= 7: 
                     player.hammer = True
+                elif self.power_choice > 7 and self.power_choice <= 9:
+                    player.black_heart = True
+
                 power_up.start_time = pygame.time.get_ticks()
                 player.has_power_up = True
                 player.type = power_up.type
                 player.power_up_time = power_up.start_time + (power_up.duration * 1000)
+                
                 self.power_ups.remove(power_up)
 
     def draw(self, screen):
