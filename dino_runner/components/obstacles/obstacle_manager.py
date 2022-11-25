@@ -4,7 +4,7 @@ import random
 from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS
 from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.bird import Bird
-from dino_runner.components.sound import sound_board
+from dino_runner.components import sound_board
 
 
 class ObstacleManager:
