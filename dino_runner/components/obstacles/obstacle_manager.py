@@ -29,7 +29,7 @@ class ObstacleManager:
                     game.playing = False
                     game.death_count += 1
                     break
-                else:
+                elif game.player.hammer:
                     self.obstacles.remove(obstacle)
 
     def reset_obstacles(self):

@@ -66,8 +66,8 @@ class Game:
 
     def update_score(self):
         self.score += 1
-        if self.score % 100 == 0:
-            self.game_speed += 5
+        if self.score % 50 == 0:
+            self.game_speed += 1
 
     def draw(self):
         self.clock.tick(FPS)
@@ -102,12 +102,13 @@ class Game:
 
     def draw_power_up_time(self):
         if self.player.has_power_up:
-            time_to_show = round((self.player.power_up_time - pygame.time.get_ticks()) / 1000, 2)
+            time_to_show = (self.player.power_up_time - pygame.time.get_ticks()) // 1000
             if time_to_show >= 0:
                 self.text_draw(
                     f'{self.player.type.capitalize()} enabled for {time_to_show} seconds', 22, 500, 40)
             else:
                 self.player.has_power_up = False
+                self.player.hammer = False
                 self.player.type = DEFAULT_TYPE
 
     def handle_events_on_menu(self):
