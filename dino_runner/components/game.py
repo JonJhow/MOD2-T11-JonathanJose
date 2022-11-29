@@ -1,6 +1,6 @@
 import pygame
 
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
+from dino_runner.utils.constants import BG, ICON, RESTART, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.power_ups.power_up_manager import PowerUpManager
@@ -132,6 +132,7 @@ class Game:
             self.text_draw(f"Your score: {self.score}", 20, half_screen_width, half_screen_height)
             self.text_draw(f"Your higher score: {self.higher_score}", 20,  half_screen_width, half_screen_height + 30)
             self.text_draw(f'Deaths counter: {self.death_count}', 20, half_screen_width, half_screen_height + 60)
+            self.screen.blit(RESTART, (half_screen_width - 55 , half_screen_height + 100))
             self.text_draw("Press any key to restart!", 26, half_screen_width, half_screen_height + 190)
 
         pygame.display.update()

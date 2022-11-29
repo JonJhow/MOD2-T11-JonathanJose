@@ -23,7 +23,9 @@ class Dinosaur:
         self.step_index = 0
         self.dino_run = True
         self.dino_jump = False
+        self.dino_drop = False
         self.dino_duck = False
+        self.is_dino_ducking = False
         self.jump_vel = JUMP_VEL
         self.setup_state()
 
@@ -32,35 +34,46 @@ class Dinosaur:
         self.hammer = False
         self.black_heart = False
         self.show_text = False
-        self.shield_time_up = 0
 
     def update(self, user_input):
         if self.dino_run:
             self.run()
         elif self.dino_jump:
             self.jump()
+        elif self.dino_drop:
+            self.jump_drop()
         elif self.dino_duck:
             self.duck()
 
         if user_input[pygame.K_UP] and not self.dino_jump and not self.black_heart:
             sound_board.play_jump()
             self.dino_run = False
+            self.dino_duck = False
             self.dino_jump = True
-            self.dino_duck = False
-        elif user_input[pygame.K_DOWN] and not self.dino_jump and not self.black_heart:
-            self.dino_duck = True
+            self.dino_drop = False
+        elif user_input[pygame.K_DOWN] and self.dino_jump:
+            self.dino_jump = False
+            self.dino_drop = True
+        elif user_input[pygame.K_DOWN] and not self.dino_jump and not self.dino_drop and not self.black_heart:
+            if not self.is_dino_ducking:
+                sound_board.play_duck()
+            self.is_dino_ducking = True
             self.dino_run = False
+            self.dino_duck = True
             self.dino_jump = False
-        elif not self.dino_jump and not self.dino_duck:
+            self.dino_drop = False
+        elif not self.dino_jump and not self.dino_duck and not self.dino_drop:
+            self.is_dino_ducking = False
             self.dino_run = True
-            self.dino_jump = False
             self.dino_duck = False
+            self.dino_jump = False
+            self.dino_drop = False
+
+        if self.dino_jump == False:
+            self.jump_vel = JUMP_VEL
 
         if self.step_index >= 9:
             self.step_index = 0
-
-    def draw(self, screen):
-        screen.blit(self.image, (self.dino_rect.x, self.dino_rect.y))
 
     def run(self):
         self.image = RUN_IMG[self.type][self.step_index // 5]
@@ -78,7 +91,18 @@ class Dinosaur:
         if self.jump_vel < -JUMP_VEL:
             self.dino_rect.y = Y_POS
             self.dino_jump = False
-            self.jump_vel = JUMP_VEL
+
+        self.step_index += 1
+
+    def jump_drop(self):
+        self.image = JUMP_IMG[self.type]
+        drop_vel = 11
+        self.dino_rect.y += drop_vel * 4
+        drop_vel += 2
+
+        if self.dino_rect.y >= Y_POS:
+            self.dino_rect.y = Y_POS
+            self.dino_drop = False
 
         self.step_index += 1
 
@@ -90,3 +114,5 @@ class Dinosaur:
         self.step_index += 1
         self.dino_duck = False
 
+    def draw(self, screen):
+        screen.blit(self.image, (self.dino_rect.x, self.dino_rect.y))

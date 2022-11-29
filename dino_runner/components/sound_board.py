@@ -16,3 +16,8 @@ def play_destroy_obstacle():
     dest_obst_sound = pygame.mixer.Sound("dino_runner/Assets/Sound/SFX_HitObstacle.wav")
     dest_obst_sound.set_volume(VOLUME)
     dest_obst_sound.play()
+
+def play_duck():
+    duck_sound = pygame.mixer.Sound("dino_runner/Assets/Sound/SFX_Duck1.wav")
+    duck_sound.set_volume(VOLUME)
+    duck_sound.play()
